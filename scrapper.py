@@ -11,14 +11,15 @@ from pathlib import Path
 import smtplib
 
 PATH='./geckodriver'
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+
 SENDER=os.getenv("senderEmail")
 SENDER_PASSWORD = os.getenv("senderPassword")
 RECEIVER= os.getenv('recieverEmail')
 LINKEDIN_USERNAME = os.getenv('email')
 LINKEDIN_PASS = os.getenv('password')
 
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
 
 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 server.ehlo()
