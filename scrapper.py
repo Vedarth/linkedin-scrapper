@@ -11,24 +11,25 @@ from pathlib import Path
 import smtplib
 
 PATH='./geckodriver'
-env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
 SENDER=os.getenv("senderEmail")
 SENDER_PASSWORD = os.getenv("senderPassword")
+RECEIVER= os.getenv('recieverEmail')
+LINKEDIN_USERNAME = os.getenv('email')
+LINKEDIN_PASS = os.getenv('password')
+
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 server.ehlo()
-server.login(SENDER), os.getenv(SENDER_PASSWORD))
-RECEIVER= os.getenv('recieverEmail')
+server.login(SENDER, SENDER_PASSWORD)
 
-USERNAME = os.getenv('email')
-PASS = os.getenv('password')
 driver = webdriver.Firefox(executable_path=PATH)
 driver.get("https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin")
 login = driver.find_element_by_id('username')
 password = driver.find_element_by_id('password')
-login.send_keys(USERNAME)
-password.send_keys(PASS)
+login.send_keys(LINKEDIN_USERNAME)
+password.send_keys(LINKEDIN_PASS)
 button = driver.find_element_by_xpath("/html/body/div/main/div/form/div[3]/button")
 button.send_keys(Keys.ENTER)
 sleep(5)
@@ -70,12 +71,12 @@ except:
 
 comments_data = driver.find_elements_by_css_selector("p[class='comments-comment-item__main-content feed-shared-main-content--comment t-12 t-black t-normal feed-shared-main-content ember-view']")
 
-for post in post_descriptions[:5]:
+for post in post_descriptions:
     print(post.text)
     if("events app" in post.text):
         server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
 
-for comment in comments_data[:5]:
+for comment in comments_data:
     print(comment.text)
     if("events app" in post.text):
         server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
