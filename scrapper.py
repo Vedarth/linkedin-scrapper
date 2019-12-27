@@ -74,10 +74,10 @@ comments_data = driver.find_elements_by_css_selector("p[class='comments-comment-
 
 for post in post_descriptions:
     print(post.text)
-    if("events app" in post.text):
+    if "events app" in post.text:
         server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
 
 for comment in comments_data:
     print(comment.text)
-    if("events app" in post.text):
+    if "events app" in post.text:
         server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
