@@ -8,10 +8,19 @@ import requests
 import shutil
 from dotenv import load_dotenv
 from pathlib import Path
+import smtplib
 
 PATH='./geckodriver'
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
+SENDER=os.getenv("senderEmail")
+SENDER_PASSWORD = os.getenv("senderPassword")
+
+server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+server.ehlo()
+server.login(SENDER), os.getenv(SENDER_PASSWORD))
+RECEIVER= os.getenv('recieverEmail')
+
 USERNAME = os.getenv('email')
 PASS = os.getenv('password')
 driver = webdriver.Firefox(executable_path=PATH)
@@ -63,6 +72,10 @@ comments_data = driver.find_elements_by_css_selector("p[class='comments-comment-
 
 for post in post_descriptions[:5]:
     print(post.text)
+    if("events app" in post.text):
+        server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
 
 for comment in comments_data[:5]:
     print(comment.text)
+    if("events app" in post.text):
+        server.sendmail(SENDER, RECEIVER, "Subject: Event App detected in LinkedIn group\n\n"+post.text)
