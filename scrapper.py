@@ -38,8 +38,6 @@ post_descriptions = driver.find_elements_by_css_selector("div[class='feed-shared
 # src = open("grp.html", "w")
 # src.write(driver.page_source)
 # src.close()
-# print(post_descriptions)
-# print(post_descriptions[0].text)
 comment_buttons = driver.find_elements_by_css_selector("li[class='social-details-social-counts__item social-details-social-counts__comments']")
 
 for line in comment_buttons:
